@@ -12,29 +12,29 @@ public class Data {
 
 	private Set<List<String>> data;
 	private File dir;
-	
+
 	public Data(File dir) {
 		this.dir = dir;
 		data = new HashSet<>();
 	}
-	
+
 	public void tokenize() {
 		List<File> files = Arrays.asList(dir.listFiles());
-		files.forEach(f -> {
+		for (File f : files)
 			try {
 				FileInputStream fis = new FileInputStream(f);
-				byte[] raw = new byte[(int)f.length()];
+				byte[] raw = new byte[(int) f.length()];
 				fis.read(raw);
 				fis.close();
 				String fullFile = new String(raw);
 				List<String> tokens = Arrays.asList(fullFile.split("\\s+"));
 				List<String> normalised = new ArrayList<>();
-				tokens.forEach(s -> normalised.add(s.replaceAll("[^\\w\\d]", "").toLowerCase()));
+				for (String s : tokens)
+					normalised.add(s.replaceAll("[^\\w\\d]", "").toLowerCase());
 				data.add(normalised);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		});
+
 	}
-	
 }
