@@ -4,8 +4,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 public class Data {
@@ -38,12 +41,44 @@ public class Data {
 					// Normalise by removing non-word and non-digit characters,
 					// and by converting to lower case
 					normalised.add(s.replaceAll("[^\\w\\d]", "").toLowerCase());
-				
-				//add to the set of normalised tokens
+
+				// add to the set of normalised tokens
 				data.add(normalised);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+	}
 
+	public Map<String, Integer> getCounts() {
+		Map<String, Integer> counts = new HashMap<>();
+		for (List<String> tokens : data) {
+			for (String token : tokens) {
+				// If there is already a count for this token, increment it by
+				// one. Otherwise, set it to 1.
+				counts.put(token,
+						counts.containsKey(token) ? counts.get(token) + 1 : 1);
+			}
+		}
+		return counts;
+	}
+	
+	public long totalCount() {
+		long res = 0;
+		for (List<String> tokens : data)
+			res += tokens.size();
+		return res;
+	}
+	
+	public Map<String, Double> getNormalised() {
+		Map<String, Integer> counts = getCounts();
+		Map<String, Double> normalised = new HashMap<>();
+		long total = totalCount();
+		
+		for (Entry<String, Integer> e : counts.entrySet()) {
+			//Normalised value = value for this token / total value
+			normalised.put(e.getKey(), ((double) e.getValue()) / ((double) total));
+		}
+		
+		return normalised;
 	}
 }
