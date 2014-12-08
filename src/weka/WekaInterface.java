@@ -85,7 +85,6 @@ public class WekaInterface {
 			File dir) throws IOException {
 
 		for (File f : dir.listFiles()) {
-
 			Scanner scanner = new Scanner(f);
 
 			if (scanner.hasNext()) {
@@ -112,6 +111,13 @@ public class WekaInterface {
 			scanner.close();
 		}
 
+	}
+	
+	public static void addToInstances(String text, WekaClass type, Instances data) {
+		double[] toAdd = new double[data.numAttributes()];
+		toAdd[0] = data.attribute(0).addStringValue(text);
+		toAdd[1] = type.getValue();
+		data.add(new Instance(1.0, toAdd));
 	}
 
 	public static Instances getInstancesFromDirs(String name,
