@@ -248,7 +248,12 @@ public class LearnerGui extends JFrame {
 	}
 
 	public static void main(String[] args) throws Exception {
+		Splash splash = new Splash();
+		splash.setAlwaysOnTop(true);
+		splash.setVisible(true);
 		LearnerGui gui = new LearnerGui();
 		gui.setVisible(true);
+		splash.setVisible(false);
+		splash = null;
 	}
 }
