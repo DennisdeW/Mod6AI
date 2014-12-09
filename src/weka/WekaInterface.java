@@ -16,10 +16,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import weka.classifiers.Classifier;
+import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.bayes.NaiveBayesSimple;
 import weka.classifiers.functions.SimpleLogistic;
 import weka.classifiers.meta.FilteredClassifier;
 import weka.classifiers.trees.J48;
+import weka.classifiers.trees.NBTree;
 import weka.core.Attribute;
 import weka.core.FastVector;
 import weka.core.Instance;
@@ -209,6 +211,23 @@ public class WekaInterface {
 			 */
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	public static Classifier classifierForName(String name) {
+		switch (name) {
+		case "J48":
+			return new J48();
+		case "NaiveBayes":
+			return new NaiveBayes();
+		case "NBTree":
+			return new NBTree();
+			default:
+			try {
+				return (Classifier) Class.forName(name).newInstance();
+			} catch (Throwable t) {
+				throw new gui.LearnerGui.ConfigurationException(t);
+			}
 		}
 	}
 }

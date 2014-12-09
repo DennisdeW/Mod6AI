@@ -35,4 +35,8 @@ public class Splash extends JFrame {
 
         pack();
     }
+	
+	public void changeText(String text) {
+		jLabel1.setText(text);
+	}
 }
